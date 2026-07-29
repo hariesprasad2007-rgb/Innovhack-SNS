@@ -1,0 +1,6 @@
+{
+  "name": "DoubleShift-AI",
+  "description": "AI-first buying decision and discovery architecture blueprint",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
