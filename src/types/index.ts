@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 /**
  * DoubleShift-AI Architecture Types
  * Core domain contracts, theme definitions, and layout configurations.
@@ -40,7 +40,8 @@ export interface QuickAction {
   shortcut?: string;
   icon: string;
   action: () => void;
-=======
+}
+
 export interface Product {
   id: string;
   name: string;
@@ -76,5 +77,4 @@ export interface Recommendation {
 export interface CartItem {
   product: Product;
   quantity: number;
->>>>>>> 933d20fd5f09f415a696081fd6156af0a96643af
 }
