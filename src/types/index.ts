@@ -1,4 +1,3 @@
-
 /**
  * DoubleShift-AI Architecture Types
  * Core domain contracts, theme definitions, and layout configurations.
@@ -77,4 +76,32 @@ export interface Recommendation {
 export interface CartItem {
   product: Product;
   quantity: number;
+}
+
+export interface ProductReview {
+  id: string;
+  productId?: string;
+  productName: string;
+  author: string;
+  avatar?: string;
+  rating: number; // 1 to 5
+  date: string;
+  title: string;
+  comment: string;
+  pros?: string[];
+  cons?: string[];
+  verifiedPurchase: boolean;
+  helpfulCount: number;
+}
+
+export interface ReviewSummary {
+  averageRating: number;
+  totalReviews: number;
+  ratingBreakdown: {
+    5: number;
+    4: number;
+    3: number;
+    2: number;
+    1: number;
+  };
 }

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Search, Compass, GitCompare, Microscope, Archive, Sliders, Settings, Sun, Moon, Sparkles } from 'lucide-react';
 import { Modal } from '../ui/modal';
@@ -22,6 +22,12 @@ export const CommandPalette: React.FC<CommandPaletteProps> = () => {
     { key: 'k', metaOrControl: true },
     () => setIsOpen((prev) => !prev)
   );
+
+  useEffect(() => {
+    const handleOpen = () => setIsOpen(true);
+    window.addEventListener('open-command-palette', handleOpen);
+    return () => window.removeEventListener('open-command-palette', handleOpen);
+  }, []);
 
   const filteredRoutes = ROUTES.filter(
     (route) =>

@@ -29,6 +29,7 @@ import {
   getProductRating,
 } from '../lib/mockData';
 import { ProductCard } from '../components/ui/ProductCard';
+import { Modal } from '../components/ui/modal';
 
 export const DecisionVaultView: React.FC = () => {
   const navigate = useNavigate();
@@ -58,6 +59,31 @@ export const DecisionVaultView: React.FC = () => {
   const [newTitle, setNewTitle] = useState('');
   const [newCategory, setNewCategory] = useState('Audio Hardware');
   const [newPrice, setNewPrice] = useState('');
+  const [newNotes, setNewNotes] = useState('');
+
+  const handleCreateDecision = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!newTitle.trim()) return;
+    const newItem: DecisionLedgerItem = {
+      id: `dec-${Date.now()}`,
+      title: newTitle,
+      category: newCategory,
+      decisionDate: 'Just now',
+      purchasePrice: newPrice ? (newPrice.startsWith('$') ? newPrice : `$${newPrice}`) : '$299',
+      unsponsoredPivotSavings: '$45 Saved',
+      confidenceAtPurchase: 95,
+      outcomeStatus: 'Loved & Kept',
+      auditNotes: newNotes || 'Audited post-purchase choice.',
+      usageFrequency: 'Daily (5-8 hrs)',
+      regretScore: 0,
+      image: getProductImage(newTitle),
+    };
+    setLedgerItems([newItem, ...ledgerItems]);
+    setIsAddModalOpen(false);
+    setNewTitle('');
+    setNewPrice('');
+    setNewNotes('');
+  };
 
   const profile = MOCK_DASHBOARD_INSIGHTS.shoppingHabitsProfile;
   const budget = MOCK_DASHBOARD_INSIGHTS.budgetMetrics;
@@ -552,6 +578,87 @@ export const DecisionVaultView: React.FC = () => {
           </div>
         )}
       </div>
+
+      {/* LOG DECISION MODAL */}
+      <Modal
+        isOpen={isAddModalOpen}
+        onClose={() => setIsAddModalOpen(false)}
+        title="Log Decision to Immutable Vault"
+        description="Record a product purchase or evaluation decision to track post-purchase sentiment, regret, and durability metrics."
+      >
+        <form onSubmit={handleCreateDecision} className="space-y-4 mt-2">
+          <div className="space-y-1.5">
+            <label className="text-xs font-bold text-foreground block">Product / Decision Title</label>
+            <input
+              type="text"
+              required
+              placeholder="e.g. Steelcase Gesture Task Chair"
+              value={newTitle}
+              onChange={(e) => setNewTitle(e.target.value)}
+              className="w-full rounded-xl border border-input bg-background p-2.5 text-xs text-foreground focus:outline-none focus:ring-2 focus:ring-emerald-500"
+            />
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="space-y-1.5">
+              <label className="text-xs font-bold text-foreground block">Category</label>
+              <select
+                value={newCategory}
+                onChange={(e) => setNewCategory(e.target.value)}
+                className="w-full rounded-xl border border-input bg-background p-2.5 text-xs text-foreground focus:outline-none focus:ring-2 focus:ring-emerald-500"
+              >
+                <option value="Audio Hardware">Audio Hardware</option>
+                <option value="Ergonomics">Ergonomics</option>
+                <option value="Mechanical Engineering">Mechanical Engineering</option>
+                <option value="Computers">Computers</option>
+                <option value="Carry Gear">Carry Gear</option>
+              </select>
+            </div>
+
+            <div className="space-y-1.5">
+              <label className="text-xs font-bold text-foreground block">Purchase Price ($)</label>
+              <input
+                type="text"
+                placeholder="e.g. 429"
+                value={newPrice}
+                onChange={(e) => setNewPrice(e.target.value)}
+                className="w-full rounded-xl border border-input bg-background p-2.5 text-xs text-foreground focus:outline-none focus:ring-2 focus:ring-emerald-500 font-mono"
+              />
+            </div>
+          </div>
+
+          <div className="space-y-1.5">
+            <label className="text-xs font-bold text-foreground block">Post-Purchase Audit Notes</label>
+            <textarea
+              rows={3}
+              placeholder="Audited trade-offs accepted, fit quality, and durability performance after 30+ days..."
+              value={newNotes}
+              onChange={(e) => setNewNotes(e.target.value)}
+              className="w-full rounded-xl border border-input bg-background p-2.5 text-xs text-foreground focus:outline-none focus:ring-2 focus:ring-emerald-500 resize-none"
+            />
+          </div>
+
+          <div className="pt-2 flex justify-end gap-3">
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              onClick={() => setIsAddModalOpen(false)}
+              className="text-xs rounded-xl"
+            >
+              Cancel
+            </Button>
+            <Button
+              type="submit"
+              variant="emerald"
+              size="sm"
+              className="text-xs font-bold rounded-xl gap-1.5"
+            >
+              <Plus className="h-4 w-4" /> Save to Decision Vault
+            </Button>
+          </div>
+        </form>
+      </Modal>
     </PageWrapper>
   );
 };

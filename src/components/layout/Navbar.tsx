@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Search, Sun, Moon, Cpu, Menu, X, ShieldCheck, Sparkles } from 'lucide-react';
 import { useTheme } from '../../hooks/useTheme';
 import { useScrollPosition } from '../../hooks/useScrollPosition';
@@ -15,6 +15,16 @@ interface NavbarProps {
 export const Navbar: React.FC<NavbarProps> = ({ onToggleSidebar, isSidebarOpen }) => {
   const { theme, setTheme, resolvedTheme } = useTheme();
   const { isScrolled } = useScrollPosition();
+  const navigate = useNavigate();
+
+  const handleOpenSearch = () => {
+    window.dispatchEvent(new CustomEvent('open-command-palette'));
+  };
+
+  const handleNewEvaluation = () => {
+    navigate('/');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
 
   return (
     <header
@@ -59,11 +69,8 @@ export const Navbar: React.FC<NavbarProps> = ({ onToggleSidebar, isSidebarOpen }
         {/* Center Command Launcher */}
         <div className="hidden md:flex items-center flex-1 max-w-md mx-8">
           <button
-            onClick={() => {
-              const event = new KeyboardEvent('keydown', { key: 'k', metaKey: true });
-              window.dispatchEvent(event);
-            }}
-            className="w-full flex items-center justify-between h-9 px-3.5 rounded-xl border border-input bg-background/50 text-muted-foreground text-xs hover:bg-secondary/60 hover:border-foreground/20 transition-all group"
+            onClick={handleOpenSearch}
+            className="w-full flex items-center justify-between h-9 px-3.5 rounded-xl border border-input bg-background/50 text-muted-foreground text-xs hover:bg-secondary/60 hover:border-foreground/20 transition-all group cursor-pointer"
           >
             <span className="flex items-center gap-2">
               <Search className="h-3.5 w-3.5 text-muted-foreground group-hover:text-foreground transition-colors" />
@@ -97,7 +104,12 @@ export const Navbar: React.FC<NavbarProps> = ({ onToggleSidebar, isSidebarOpen }
             )}
           </Button>
 
-          <Button variant="emerald" size="sm" className="hidden sm:inline-flex gap-1.5 font-medium">
+          <Button
+            variant="emerald"
+            size="sm"
+            onClick={handleNewEvaluation}
+            className="hidden sm:inline-flex gap-1.5 font-medium cursor-pointer"
+          >
             <Sparkles className="h-3.5 w-3.5" />
             New Evaluation
           </Button>

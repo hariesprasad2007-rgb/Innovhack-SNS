@@ -1,3 +1,5 @@
+import { ProductReview, ReviewSummary } from '../types';
+
 export function getProductImage(productName: string): string {
   const name = productName.toLowerCase();
   if (name.includes('bose') || name.includes('quietcomfort')) return 'https://images.unsplash.com/photo-1546435770-a3e426bf472b?auto=format&fit=crop&w=600&q=80';
@@ -1110,4 +1112,146 @@ export const MOCK_DASHBOARD_INSIGHTS: DashboardInsights = {
     },
   ],
 };
+
+export const INITIAL_PRODUCT_REVIEWS: ProductReview[] = [
+  {
+    id: 'rev-01',
+    productName: 'Bose QuietComfort Ultra',
+    author: 'Vikram S.',
+    avatar: 'VS',
+    rating: 5,
+    date: '2 days ago',
+    title: 'Zero eyeglass frame pressure during 10-hour coding sessions!',
+    comment: 'The soft memory foam earpads create a gentle seal around my thick acetate frames. Passive isolation is incredible, and active noise cancellation handles low-frequency fan noise perfectly.',
+    pros: ['Zero eyeglass pinch', 'Top-tier ANC', 'Lightweight build'],
+    cons: ['Proprietary ear cushion clip'],
+    verifiedPurchase: true,
+    helpfulCount: 42,
+  },
+  {
+    id: 'rev-02',
+    productName: 'Bose QuietComfort Ultra',
+    author: 'Ananya R.',
+    avatar: 'AR',
+    rating: 5,
+    date: '1 week ago',
+    title: 'Unsponsored review: Worth every penny for desk focus',
+    comment: 'Soundstage is crisp with zero artificial bass boost. Impressed by the physical power toggle switch that prevents phantom standby battery drain.',
+    pros: ['Physical toggle switch', 'Snapdragon aptX support'],
+    cons: ['Plastic travel case could be sturdier'],
+    verifiedPurchase: true,
+    helpfulCount: 28,
+  },
+  {
+    id: 'rev-03',
+    productName: 'Sony WH-1000XM5 Headphones',
+    author: 'David K.',
+    avatar: 'DK',
+    rating: 4,
+    date: '3 weeks ago',
+    title: 'Great noise cancellation, but tight headband clamp',
+    comment: 'Mic quality during Zoom calls is best in class. However, if you wear glasses, the headband clamping force starts causing temporal pressure after 2 hours.',
+    pros: ['Crystal clear microphones', 'Auto NC optimizer'],
+    cons: ['Non-folding headband', 'High clamping pressure for glasses wearers'],
+    verifiedPurchase: true,
+    helpfulCount: 19,
+  },
+  {
+    id: 'rev-04',
+    productName: 'Steelcase Gesture Task Chair',
+    author: 'Rajesh M.',
+    avatar: 'RM',
+    rating: 5,
+    date: '1 month ago',
+    title: 'Cured my lower back fatigue after 12 years of poor ergonomics',
+    comment: 'The 360-degree articulating arms match every typing posture. The die-cast steel frame feels like it will last decades without creaking.',
+    pros: ['360-degree arm rest articulation', 'Indestructible chassis', 'Breathable fabric'],
+    cons: ['Heavy frame to move'],
+    verifiedPurchase: true,
+    helpfulCount: 35,
+  },
+  {
+    id: 'rev-05',
+    productName: 'Profitec Go PID Espresso Machine',
+    author: 'Elena T.',
+    avatar: 'ET',
+    rating: 5,
+    date: '5 days ago',
+    title: 'Commercial brass boiler in a compact home footprint',
+    comment: 'Zero glued sub-assemblies. Every valve unbolts with standard tools for effortless repairability. Temperature stability via the PID is rock solid.',
+    pros: ['Brass boiler construction', 'PID temperature control', '100% repairable'],
+    cons: ['45-second steam thermal transition phase'],
+    verifiedPurchase: true,
+    helpfulCount: 51,
+  },
+  {
+    id: 'rev-06',
+    productName: 'Apple MacBook Air M3',
+    author: 'Karthik N.',
+    avatar: 'KN',
+    rating: 5,
+    date: '4 days ago',
+    title: 'Silent fanless performance with ridiculous battery life',
+    comment: 'Easily handles Xcode compiles and multi-tab browsing without getting warm. Battery routinely lasts 16+ hours of actual work.',
+    pros: ['Silent fanless design', '16+ hr battery', 'Bright Liquid Retina display'],
+    cons: ['Base model 8GB RAM limit'],
+    verifiedPurchase: true,
+    helpfulCount: 64,
+  },
+];
+
+let dynamicReviewsStore: ProductReview[] = [...INITIAL_PRODUCT_REVIEWS];
+
+export function getProductReviews(productName: string): ProductReview[] {
+  const normName = productName.toLowerCase();
+  return dynamicReviewsStore.filter(
+    (rev) =>
+      rev.productName.toLowerCase().includes(normName) ||
+      normName.includes(rev.productName.toLowerCase())
+  );
+}
+
+export function getAllReviews(): ProductReview[] {
+  return dynamicReviewsStore;
+}
+
+export function addProductReview(newReview: Omit<ProductReview, 'id' | 'date' | 'helpfulCount'>): ProductReview {
+  const review: ProductReview = {
+    ...newReview,
+    id: `rev-${Date.now()}`,
+    date: 'Just now',
+    helpfulCount: 0,
+  };
+  dynamicReviewsStore = [review, ...dynamicReviewsStore];
+  return review;
+}
+
+export function getReviewSummary(productName: string): ReviewSummary {
+  const reviews = getProductReviews(productName);
+  if (reviews.length === 0) {
+    return {
+      averageRating: 4.8,
+      totalReviews: 12,
+      ratingBreakdown: { 5: 9, 4: 2, 3: 1, 2: 0, 1: 0 },
+    };
+  }
+
+  const breakdown: { 5: number; 4: number; 3: number; 2: number; 1: number } = { 5: 0, 4: 0, 3: 0, 2: 0, 1: 0 };
+  let sum = 0;
+
+  reviews.forEach((r) => {
+    const star = Math.min(5, Math.max(1, Math.round(r.rating))) as 1 | 2 | 3 | 4 | 5;
+    breakdown[star] += 1;
+    sum += r.rating;
+  });
+
+  const averageRating = Number((sum / reviews.length).toFixed(1));
+
+  return {
+    averageRating,
+    totalReviews: reviews.length,
+    ratingBreakdown: breakdown,
+  };
+}
+
 
