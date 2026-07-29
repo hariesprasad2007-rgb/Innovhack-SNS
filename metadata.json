@@ -1,5 +1,9 @@
 {
+<<<<<<< HEAD
   "name": "DoubleShift-AI",
+=======
+  "name": "ShopMind AI",
+>>>>>>> 933d20fd5f09f415a696081fd6156af0a96643af
   "description": "AI-first buying decision and discovery architecture blueprint",
   "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
