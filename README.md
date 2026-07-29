@@ -1,12 +1,11 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://ai.google.dev/static/site-assets/images/share-ais-513315318.png" />
-</div>
+# Innovhack-SNS
 
-# Run and deploy your AI Studio app
+An intelligent AI/ML recommendation engine that delivers personalised product suggestions based on user behaviour and preferences.
 
-This contains everything you need to run your app locally.
+# 🛒 AI-Powered Product Recommendation System
 
-View your app in AI Studio: https://ai.studio/apps/7efbfd21-0dcc-470b-9c7e-45b690994e46
+AI-powered e-commerce recommendation system that delivers personalised product suggestions using browsing history, purchases, ratings, and wishlist data. Built with AI/ML for real-time, scalable, and accurate recommendations to improve user experience, engagement, and sales.
+---
 
 ## Run Locally
 
@@ -18,14 +17,6 @@ View your app in AI Studio: https://ai.studio/apps/7efbfd21-0dcc-470b-9c7e-45b69
 2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
 3. Run the app:
    `npm run dev`
-# Innovhack-SNS
-
-An intelligent AI/ML recommendation engine that delivers personalised product suggestions based on user behaviour and preferences.
-
-# 🛒 AI-Powered Product Recommendation System
-
-AI-powered e-commerce recommendation system that delivers personalised product suggestions using browsing history, purchases, ratings, and wishlist data. Built with AI/ML for real-time, scalable, and accurate recommendations to improve user experience, engagement, and sales.
----
 
 ## 📖 Table of Contents
 
