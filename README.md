@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 <div align="center">
 <img width="1200" height="475" alt="GHBanner" src="https://ai.google.dev/static/site-assets/images/share-ais-513315318.png" />
 </div>
@@ -19,7 +18,6 @@ View your app in AI Studio: https://ai.studio/apps/7efbfd21-0dcc-470b-9c7e-45b69
 2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
 3. Run the app:
    `npm run dev`
-=======
 # Innovhack-SNS
 
 An intelligent AI/ML recommendation engine that delivers personalised product suggestions based on user behaviour and preferences.
@@ -473,4 +471,3 @@ This project is licensed under the MIT License.
 ---
 
 ## ⭐ If you found this project helpful, consider giving it a star on GitHub!
->>>>>>> 933d20fd5f09f415a696081fd6156af0a96643af
